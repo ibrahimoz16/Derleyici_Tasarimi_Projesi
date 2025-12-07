@@ -5,11 +5,6 @@ Basit bir "minilang" dilinin lexer ve parser'ını içeren küçük bir Python a
 Dosya yapısı
 - `main.py` — Lexer ve Parser içeren ana Python dosyası.
 - `minilang.txt` — Varsayılan test giriş dosyası (aynı dizinde olmalı).
-- `printbyte.py` — Giriş dosyasının byte görüntüsünü yazdırmak için yardımcı script. 
-(İlk satırındaki 
-"p = r"c:\Users\ibrahimoz\Desktop\Derleyici_ Tasarimi_Projesi\minilang.txt""
-Path'i güncellenmelidir.)
-
 
 Çalıştırma (PowerShell)
 
