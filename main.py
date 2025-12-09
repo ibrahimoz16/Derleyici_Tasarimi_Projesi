@@ -96,7 +96,6 @@ class Parser:
                 idx = i
                 break
         if idx is None:
-            # bulunmadıysa yapılacak bir şey yok
             return
 
         if rhs == []:
@@ -111,7 +110,11 @@ class Parser:
     
     def error(self, msg):
         self.error_occurred = True
-        raise SyntaxError(f"Syntax error: {msg}. Expected {self.current_token.type}, got token '{self.current_token.value}'")
+        # Eğer gelen mesaj zaten "Expected ..." ile başlıyorsa tekrar ekleme; sadece mevcut token bilgisini ekle
+        if isinstance(msg, str) and msg.strip().startswith("Expected"):
+            raise SyntaxError(f"Syntax error: {msg}. Got token '{self.current_token.value}'")
+        else:
+            raise SyntaxError(f"Syntax error: {msg}. Expected {self.current_token.type}, got token '{self.current_token.value}'")
     
     def eat(self, token_type):
         if self.current_token.type == token_type:
@@ -290,12 +293,11 @@ def main():
         lexer = Lexer(text)
         tokens = lexer.tokenize()
         
-        # Token'ları yazdır
+        # Token'ları yazdır: (TYPE , value) formatında
         token_output = []
         for token in tokens:
-            if token.type != 'EOF':
-                token_output.append(token.type)
-        token_output.append('EOF')
+            # token.value boş ise boş bırakılacak, örn. EOF için
+            token_output.append(f"({token.type} , {token.value})")
         print(' '.join(token_output))
         
         print("\n" + "=" * 50)

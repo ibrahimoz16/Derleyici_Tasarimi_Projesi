@@ -8,24 +8,29 @@ Dosya yapısı
 
 Çalıştırma (PowerShell)
 
-- Eğer `minilang.txt` dosyası proje dizinindeyse, doğrudan çalıştırın:
+- Eğer proje dizinindeyseniz doğrudan çalıştırın:
 
 ```powershell
-python "c:\Users\ibrahimoz\Desktop\Derleyici_ Tasarimi_Projesi\main.py"
+python "main.py"
 ```
 
 - Farklı bir giriş dosyası kullanmak isterseniz dosya yolunu argüman olarak verin:
 
 ```powershell
-python "c:\Users\ibrahimoz\Desktop\Derleyici_ Tasarimi_Projesi\main.py" "C:\path\to\your\file.txt"
+python "main.py" "C:\path\to\your\file.txt"
 ```
 
 Çıktı
 - Program önce token akışını yazdırır, ardından parser'ın çalıştığını ve leftmost türetme adımlarını numaralandırılmış şekilde alt alta gösterir.
 
-Notlar
-- `declaration` kuralı sadece `int id;` formunu kabul eder. Yani `int x = 3;` gibi başlangıç atamaları syntax hatası verir.
+Önemli değişiklikler
+- **Token biçimi:** Token'lar artık konsola `(TYPE , value)` formatında yazdırılır. Örnek: `(INT , int) (ID , x) (SEMICOLON , ;) (EOF , )`.
+- **Hata mesajı düzeltilmesi:** Parser içindeki `error` fonksiyonundaki tekrar eden "Expected ..." ifadesi giderildi; artık hata mesajları daha okunaklıdır (ör. `Syntax error: Expected SEMICOLON. Got token ')'`).
 
-Sorunlar / Hata ayıklama
-- Eğer lexing sırasında beklenmeyen bir karakterle karşılaşılırsa, program satır ve sütun bilgisiyle bir hata mesajı gönderir.
-- Parser hatalarında hata mesajı hangi token'ın beklendiğini ve hangi token ile karşılaşıldığını gösterir.
+Örnek çıktı
+
+- Token akışı (örnek):
+
+```
+(INT , int) (ID , x) (SEMICOLON , ;) (INT , int) (ID , y) (SEMICOLON , ;) (ID , x) (ASSIGN , =) (NUMBER , 3) (PLUS , +) (NUMBER , 6) (SEMICOLON , ;) (ID , y) (ASSIGN , =) (LPAREN , () (ID , x) (MINUS , -) (NUMBER , 5) (RPAREN , )) (DIV , /) (NUMBER , 2) (SEMICOLON , ;) (PRINT , print) (LPAREN , () (ID , x) (PLUS , +) (ID , y) (RPAREN , )) (SEMICOLON , ;) (EOF , )
+```
